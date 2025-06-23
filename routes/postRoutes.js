@@ -19,9 +19,22 @@ router.get('/', async (req, res) => {
   res.json(posts);
 });
 
-router.delete('/:id', auth, admin, async (req, res) => {
-  await Post.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Post deleted' });
+
+
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+
+   
+    await Post.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Post deleted successfully' });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
 });
+
 
 module.exports = router;

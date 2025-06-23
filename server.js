@@ -13,21 +13,22 @@ const blogPosts = require('./data');
 const comments = require('./commentData');
 const Comment = require('./Models/Comment');
 const userRoutes = require('./routes/userRoutes');
-const errorHandle =require('./Middleware/errorhandle')
+const errorHandler = require('./Middleware/errorhandler');
 
 const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(errorHandle);
+app.use(errorhandler);
 
-app.use('/api/posts', postRoutes);
+
+app.use('/api/posts', postRoutes); 
 app.use('/api/users',userRoutes)
-app.use('/api/post',userRoutes)
+app.use('/api/posts',userRoutes)
 app.use('/api/comments',commentRoutes)
 app.use('/api/comments/_id',commentRoutes)
 app.use('/api/register', auth);
 app.use('/api/login',auth)
-
+app.use('/api/_id', postRoutes)
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {
     console.log(' MongoDB connected');
@@ -72,7 +73,10 @@ mongoose.connect(process.env.MONGODB_URI)
 } catch (err) {
   console.error(' Error inserting comment data:', err.message);
 }
-
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  next();
+});
 
     app.listen(3000, () => {
       console.log(` Server running on this at http://localhost:3000`);

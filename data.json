@@ -9,5 +9,11 @@
     "title": "Learning Express",
     "content": "Express makes handling HTTP routes easy.",
     "author": "faizan"
-  }
+  },
+  {
+    "title":"how to create api or  database into node.js",
+    "content":"globally mistake we create the controller method but not know how to run qeury to handle the blog post api wit four function is GET ,POST, PUT , UPDATE the api",
+     "author":"Ryal Dhal"
+  
+  } 
 ]
