@@ -5,8 +5,13 @@
     "content": "I creae an cooment for api "
   },
   {
-    "postId": "60c72b2f9b1e8a2f345c1234",
+    "postId": "60c72b2f9b1e8a2f345c2345",
     "author": "admin",
     "content": "this api blog post with enhanc features ."
+  },
+  {
+    "postId":"60c72b2f9b1e8a2f345c5787",
+    "author":"Muqeet Mughal",
+    "content":"I create comment ."
   }
 ]

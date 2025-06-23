@@ -22,9 +22,11 @@ app.use(errorHandle);
 
 app.use('/api/posts', postRoutes);
 app.use('/api/users',userRoutes)
+app.use('/api/post',userRoutes)
 app.use('/api/comments',commentRoutes)
 app.use('/api/comments/_id',commentRoutes)
-app.use('/api/auth/login', auth);
+app.use('/api/register', auth);
+app.use('/api/login',auth)
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {

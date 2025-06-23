@@ -1,12 +1,17 @@
 [
   {
-    "username": "faizan",
-    "password": "5948",
+    "username": "Abdullah",
+    "password": "admin1234",
     "role": "admin"
   },
   {
-    "username": "waqas",
-    "password": "47786",
+    "username": "Zahid",
+    "password": "user1234",
     "role": "user"
+  },
+  {
+    "username":"faizan",
+    "password":"fizi5948",
+    "role":"user"
   }
 ]
