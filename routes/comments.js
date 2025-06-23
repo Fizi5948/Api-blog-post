@@ -1,27 +1,45 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../Models/Comment');
-const auth = require('../Middleware/auth');
-const admin = require('../Middleware/admin');
+const authenticate = require('../Middleware/auth');
 
-router.post('/:postId/comments', auth, async (req, res) => {
-  const comment = new Comment({
-    postId: req.params.postId,
-    author: req.user._id,
-    content: req.body.content
-  });
-  await comment.save();
-  res.status(201).json(comment);
+router.get('/', async (req, res) => {
+  try {
+    const comments = await Comment.find().populate('postId', 'title');
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ message: 'Error getting comments' });
+  }
 });
 
-router.get('/:postId/comments', async (req, res) => {
-  const comments = await Comment.find({ postId: req.params.postId });
-  res.json(comments);
+
+router.post('/', async (req, res) => {
+  try {
+    const { postId, author, content } = req.body;
+    const comment = await Comment.create({ postId, author, content });
+    res.status(201).json(comment);
+  } catch (err) {
+    res.status(400).json({ message: 'Error creating comment', error: err.message });
+  }
 });
 
-router.delete('/:id', auth, admin, async (req, res) => {
-  await Comment.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Comment deleted' });
-});
 
+router.delete('/:id', authenticate, async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.id);
+    if (!comment) return res.status(404).json({ message: 'Comment not found' });
+
+    const isAuthor = comment.author === req.user.username;
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isAuthor && !isAdmin) {
+      return res.status(403).json({ message: 'Forbidden: Not allowed to delete this comment' });
+    }
+
+    await comment.deleteOne();
+    res.json({ message: 'Comment deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error deleting comment', error: err.message });
+  }
+});
 module.exports = router;

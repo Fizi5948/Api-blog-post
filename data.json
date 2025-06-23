@@ -1,0 +1,13 @@
+
+ [
+  {
+    "title": "How to build an API",
+    "content": "Use Express and MongoDB to build an API.",
+    "author": "faizan"
+  },
+  {
+    "title": "Learning Express",
+    "content": "Express makes handling HTTP routes easy.",
+    "author": "faizan"
+  }
+]
